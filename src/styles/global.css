@@ -1,0 +1,136 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background: #0a0a0f;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions for interactive elements */
+a, button {
+  transition: all 0.3s ease;
+}
+
+/* Starfield background */
+.starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Glowing horizon effect */
+.horizon-glow {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: radial-gradient(ellipse 200% 100% at 50% 100%, rgba(138, 43, 226, 0.3) 0%, rgba(75, 0, 130, 0.2) 40%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.horizon-line {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8a2be2, #4b0082, #8a2be2, transparent);
+  box-shadow: 0 0 20px rgba(138, 43, 226, 0.8), 0 0 40px rgba(138, 43, 226, 0.4);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Horizontal Scrolling Skills Marquee */
+.skills-marquee-wrapper {
+  position: relative;
+}
+
+.skills-marquee-container {
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+.skills-marquee {
+  display: flex;
+  width: fit-content;
+}
+
+.skills-marquee-1 {
+  animation: scrollSkillsLeft 30s linear infinite;
+}
+
+.skills-marquee-2 {
+  animation: scrollSkillsRight 35s linear infinite;
+}
+
+.skills-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollSkillsLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scrollSkillsRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.skill-tag {
+  transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+  transform: scale(1.1);
+  background: rgba(138, 43, 226, 0.2) !important;
+  border-color: rgba(138, 43, 226, 0.5) !important;
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
+}

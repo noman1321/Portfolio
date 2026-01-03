@@ -1,0 +1,66 @@
+---
+import { siteConfig } from "../config";
+---
+
+<section id="about" class="relative p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 bg-transparent">
+  <div class="relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-start">
+      <div class="lg:col-span-4">
+        <h2
+          class="section-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-white"
+        >
+          About Me
+        </h2>
+        <div
+          class="section-underline w-[75px] h-[5px] mt-1.5 sm:mt-2 rounded-full"
+          style={`background: linear-gradient(90deg, ${siteConfig.accentColor}, #4b0082)`}
+        >
+        </div>
+      </div>
+
+      <div class="lg:col-span-8 space-y-3 sm:space-y-4 md:space-y-6">
+        <p class="about-content text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed text-white/80">
+          {siteConfig.aboutMe}
+        </p>
+
+        <div class="pt-3 sm:pt-4 md:pt-6">
+          <div class="skills-marquee-wrapper space-y-2 sm:space-y-3">
+            {/* First row */}
+            <div class="skills-marquee-container overflow-hidden">
+              <div class="skills-marquee skills-marquee-1 flex gap-2 sm:gap-3 md:gap-4">
+                {siteConfig.skills.filter((_, index) => index % 2 === 0).map((skill) => (
+                  <span class="skill-tag px-4 py-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-full text-sm sm:text-base font-medium whitespace-nowrap flex-shrink-0">
+                    {skill}
+                  </span>
+                ))}
+                {/* Duplicate for seamless loop */}
+                {siteConfig.skills.filter((_, index) => index % 2 === 0).map((skill) => (
+                  <span class="skill-tag px-4 py-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-full text-sm sm:text-base font-medium whitespace-nowrap flex-shrink-0">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+            
+            {/* Second row - reverse direction */}
+            <div class="skills-marquee-container overflow-hidden">
+              <div class="skills-marquee skills-marquee-2 flex gap-2 sm:gap-3 md:gap-4">
+                {siteConfig.skills.filter((_, index) => index % 2 === 1).map((skill) => (
+                  <span class="skill-tag px-4 py-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-full text-sm sm:text-base font-medium whitespace-nowrap flex-shrink-0">
+                    {skill}
+                  </span>
+                ))}
+                {/* Duplicate for seamless loop */}
+                {siteConfig.skills.filter((_, index) => index % 2 === 1).map((skill) => (
+                  <span class="skill-tag px-4 py-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 rounded-full text-sm sm:text-base font-medium whitespace-nowrap flex-shrink-0">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

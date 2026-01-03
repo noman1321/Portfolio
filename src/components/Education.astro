@@ -1,0 +1,60 @@
+---
+import { siteConfig } from "../config";
+const hasEducation = siteConfig.education && siteConfig.education.length > 0;
+---
+
+{
+  hasEducation && (
+    <section id="education" class="relative p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 bg-transparent">
+      <div class="relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-start">
+          <div class="lg:col-span-4">
+            <h2 class="section-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold text-white">
+              Education
+            </h2>
+            <div
+              class="section-underline w-[75px] h-[5px] mt-1.5 sm:mt-2 rounded-full"
+              style={`background: linear-gradient(90deg, ${siteConfig.accentColor}, #4b0082)`}
+            />
+          </div>
+
+          <div class="lg:col-span-8">
+            <div class="space-y-3 sm:space-y-4 md:space-y-6">
+              {siteConfig.education.map((edu) => (
+                <div class="education-card bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-3 sm:p-4 md:p-5 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
+                    <div>
+                      <h3 class="text-lg sm:text-xl font-semibold text-white">
+                        {edu.degree}
+                      </h3>
+                      <p
+                        class="text-base sm:text-lg"
+                        style={`color: ${siteConfig.accentColor}`}
+                      >
+                        {edu.school}
+                      </p>
+                    </div>
+                    <span class="text-xs sm:text-sm text-white/60 mt-2 sm:mt-0">
+                      {edu.dateRange}
+                    </span>
+                  </div>
+
+                  <ul class="space-y-1.5">
+                    {edu.achievements.map((achievement) => (
+                      <li class="flex items-start">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 mr-3 flex-shrink-0" />
+                        <span class="text-sm sm:text-base text-white/70">
+                          {achievement}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
