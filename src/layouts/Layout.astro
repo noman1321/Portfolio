@@ -1,0 +1,79 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import AIAssistant from "../components/AIAssistant.astro";
+import { siteConfig } from "../config";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const pageTitle = title ? `${title} — ${siteConfig.name}` : `${siteConfig.name} — ${siteConfig.title}`;
+const pageDescription = description || siteConfig.description;
+---
+
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={pageDescription} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta name="theme-color" content="#05060a" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("portfolio-theme");
+          var theme = stored === "light" || stored === "dark"
+            ? stored
+            : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+          document.documentElement.setAttribute("data-theme", theme);
+          document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "light" ? "#f3f5fb" : "#05060a");
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{pageTitle}</title>
+  </head>
+  <body class="relative">
+    <div class="page-grid" aria-hidden="true"></div>
+    <div class="page-glow" aria-hidden="true"></div>
+    <Header />
+    <main class="relative z-10">
+      <slot />
+    </main>
+    <Footer />
+    <AIAssistant />
+    <div id="cursor" class="cursor" aria-hidden="true">
+      <div id="cursor-ring" class="cursor-ring"></div>
+      <div id="cursor-dot" class="cursor-dot"></div>
+    </div>
+    <script>
+      import { initAnimations } from "../scripts/animations";
+      import { initTheme } from "../scripts/theme";
+      import { initCursor } from "../scripts/cursor";
+      const boot = () => {
+        initTheme();
+        initAnimations();
+        initCursor();
+      };
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+      } else {
+        boot();
+      }
+    </script>
+  </body>
+</html>

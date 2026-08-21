@@ -1,0 +1,185 @@
+---
+const agents = [
+  { name: "Lead Agent", desc: "Discovery + outreach", color: "#60a5fa", href: "/projects/lead-generation-agent" },
+  { name: "RAG Layer", desc: "Retrieve + ground", color: "#f59e0b", href: "/lab/rag-experiments" },
+  { name: "LLM Router", desc: "Model selection", color: "#14b8a6", href: "/lab/llm-evaluation" },
+  { name: "Tool Caller", desc: "APIs + actions", color: "#ec4899", href: "/lab/ai-agents" },
+  { name: "Eval Loop", desc: "Quality traces", color: "#f43f5e", href: "/case-studies/agent-system-design" },
+  { name: "Deploy", desc: "Production ops", color: "#8b5cf6", href: "/lab/production-ai" },
+];
+---
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <p class="section-kicker">Live system map</p>
+    <h2 class="font-display text-3xl sm:text-4xl mt-3">AI orchestrator</h2>
+    <p class="mt-3 text-white/60 max-w-2xl">
+      One control plane. Specialized agents underneath. The graph is how production work actually moves.
+    </p>
+
+    <div id="orch" class="relative mt-10 min-h-[440px]">
+      <svg id="orch-svg" class="absolute inset-0 w-full h-full pointer-events-none overflow-visible" aria-hidden="true"></svg>
+
+      <div class="relative z-10 flex justify-center">
+        <div id="orch-hub" class="orch-hub glass rounded-2xl w-full max-w-xl">
+          <div class="orch-hub-inner rounded-2xl p-5 sm:p-6">
+            <div class="flex items-center justify-between gap-3 mb-4">
+              <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-300">Orchestrator</p>
+              <span class="inline-flex items-center gap-2 font-mono text-[10px] text-emerald-400">
+                <span class="status-dot"></span>
+                live
+              </span>
+            </div>
+            <p class="font-display text-xl sm:text-2xl">Noman AI Control Plane</p>
+            <p class="mt-1 text-sm text-white/55">Routes work across agents, tools, retrieval, and deployment.</p>
+            <div class="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Systems</p>
+                <p class="mt-1 text-lg font-display">03</p>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Agents</p>
+                <p class="mt-1 text-lg font-display">06</p>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Focus</p>
+                <p class="mt-1 text-lg font-display">GenAI</p>
+              </div>
+              <div>
+                <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Mode</p>
+                <p class="mt-1 text-lg font-display">FDE</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="orch-agents" class="relative z-10 mt-24 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        {agents.map((agent) => (
+          <a
+            href={agent.href}
+            class="orch-agent glass glass-hover rounded-xl p-3 block"
+            style={`--agent-color: ${agent.color}`}
+            data-agent
+          >
+            <span class="inline-block w-2.5 h-2.5 rounded-full mb-3" style={`background:${agent.color}; box-shadow:0 0 14px ${agent.color}`}></span>
+            <p class="text-sm font-medium text-white">{agent.name}</p>
+            <p class="mt-1 text-[11px] text-white/50">{agent.desc}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const colors = ["#60a5fa", "#f59e0b", "#14b8a6", "#ec4899", "#f43f5e", "#8b5cf6"];
+  let generation = 0;
+  let resizeTimer = 0;
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function connect() {
+    const root = document.getElementById("orch");
+    const svg = document.getElementById("orch-svg") as SVGSVGElement | null;
+    const hub = document.getElementById("orch-hub");
+    const agents = document.querySelectorAll<HTMLElement>("[data-agent]");
+    if (!root || !svg || !hub || agents.length === 0) return;
+
+    const gen = ++generation;
+    const rootBox = root.getBoundingClientRect();
+    svg.setAttribute("viewBox", `0 0 ${rootBox.width} ${rootBox.height}`);
+    svg.setAttribute("width", String(rootBox.width));
+    svg.setAttribute("height", String(rootBox.height));
+    svg.innerHTML = "";
+
+    const hubBox = hub.getBoundingClientRect();
+    const startX = hubBox.left - rootBox.left + hubBox.width / 2;
+    const startY = hubBox.bottom - rootBox.top - 2;
+
+    agents.forEach((agent, index) => {
+      const box = agent.getBoundingClientRect();
+      const endX = box.left - rootBox.left + box.width / 2;
+      const endY = box.top - rootBox.top + 2;
+      const midY = startY + Math.max(36, (endY - startY) * 0.5);
+      const d = `M ${startX} ${startY} C ${startX} ${midY}, ${endX} ${midY}, ${endX} ${endY}`;
+      const color = colors[index] || "#22d3ee";
+
+      const glow = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      glow.setAttribute("d", d);
+      glow.setAttribute("class", "orch-path-glow");
+      glow.setAttribute("stroke", color);
+      svg.appendChild(glow);
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      path.setAttribute("class", "orch-path");
+      path.setAttribute("stroke", color);
+      path.style.color = color;
+      svg.appendChild(path);
+
+      const length = path.getTotalLength();
+      const nodeCount = 3;
+      for (let i = 1; i <= nodeCount; i++) {
+        const point = path.getPointAtLength((i / (nodeCount + 1)) * length);
+        const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        node.setAttribute("cx", String(point.x));
+        node.setAttribute("cy", String(point.y));
+        node.setAttribute("r", "3");
+        node.setAttribute("class", "orch-node");
+        node.setAttribute("fill", "var(--orch-node)");
+        node.setAttribute("stroke", color);
+        svg.appendChild(node);
+      }
+
+      const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      pulse.setAttribute("r", "4.5");
+      pulse.setAttribute("fill", color);
+      pulse.setAttribute("class", "orch-pulse");
+      pulse.style.color = color;
+      svg.appendChild(pulse);
+
+      if (prefersReducedMotion()) {
+        const point = path.getPointAtLength(length * 0.55);
+        pulse.setAttribute("cx", String(point.x));
+        pulse.setAttribute("cy", String(point.y));
+        return;
+      }
+
+      const duration = 2400 + index * 160;
+      const start = performance.now() + index * 180;
+
+      const tick = (now: number) => {
+        if (gen !== generation) return;
+        const t = ((now - start) % duration) / duration;
+        const point = path.getPointAtLength(t * length);
+        pulse.setAttribute("cx", String(point.x));
+        pulse.setAttribute("cy", String(point.y));
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  const schedule = () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => requestAnimationFrame(connect), 40);
+  };
+
+  window.addEventListener("resize", schedule);
+  window.addEventListener("load", schedule);
+  document.addEventListener("astro:page-load", schedule);
+  new MutationObserver(schedule).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+
+  const root = document.getElementById("orch");
+  if (root && "ResizeObserver" in window) {
+    new ResizeObserver(schedule).observe(root);
+  }
+
+  schedule();
+</script>

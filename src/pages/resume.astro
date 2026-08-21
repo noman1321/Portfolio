@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { siteConfig } from "../config";
+---
+
+<Layout title="Resume" description={`Resume — ${siteConfig.name}, ${siteConfig.title}`}>
+  <section class="pt-28 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <p class="section-kicker">Resume</p>
+      <h1 class="font-display text-4xl mt-3">{siteConfig.name}</h1>
+      <p class="mt-2 text-white/70">{siteConfig.title}</p>
+      <p class="mt-1 font-mono text-sm text-white/45">
+        {siteConfig.location} · {siteConfig.social.email}
+        {siteConfig.social.phone ? ` · ${siteConfig.social.phone}` : ""}
+      </p>
+      <p class="mt-1 font-mono text-sm text-white/45">{siteConfig.currently.role}</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href={siteConfig.resumeFile} class="btn-primary" download>Download resume</a>
+        <a href={`mailto:${siteConfig.social.email}`} class="btn-ghost">Email</a>
+      </div>
+      <p class="mt-6 text-white/70 leading-relaxed">{siteConfig.aboutMe}</p>
+
+      <h2 class="font-display text-2xl mt-10">Experience</h2>
+      <div class="mt-4 space-y-6">
+        {siteConfig.experience.map((exp) => (
+          <div>
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
+              <p class="text-white">{exp.title} · {exp.company}</p>
+                <p class="font-mono text-xs text-white/40">{exp.dateRange}{exp.location ? ` · ${exp.location}` : ""}</p>
+            </div>
+            <ul class="mt-2 space-y-1">
+              {exp.bullets.map((bullet) => <li class="text-sm text-white/65">→ {bullet}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="font-display text-2xl mt-10">Selected systems</h2>
+      <div class="mt-4 space-y-4">
+        {siteConfig.projects.map((project) => (
+          <div>
+            <p class="text-white">{project.name}</p>
+            <p class="text-sm text-white/60 mt-1">{project.tagline}</p>
+          </div>
+        ))}
+      </div>
+
+      <h2 class="font-display text-2xl mt-10">Education</h2>
+      {siteConfig.education.map((edu) => (
+        <div class="mt-3">
+          <p class="text-white">{edu.degree}</p>
+          <p class="text-sm text-white/60">{edu.school}{edu.location ? ` · ${edu.location}` : ""} · {edu.dateRange}</p>
+        </div>
+      ))}
+
+      <h2 class="font-display text-2xl mt-10">Skills</h2>
+      <p class="mt-3 text-sm text-white/65">{siteConfig.skills.join(" · ")}</p>
+    </div>
+  </section>
+</Layout>

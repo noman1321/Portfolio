@@ -1,0 +1,32 @@
+---
+import { siteConfig } from "../config";
+import ProjectCard from "./ProjectCard.astro";
+
+const featured = siteConfig.projects.filter((project) => project.featured);
+---
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-end justify-between gap-4 mb-8">
+      <div>
+        <p class="section-kicker">Flagship systems</p>
+        <h2 class="font-display text-3xl sm:text-4xl mt-3">Selected work</h2>
+      </div>
+      <a href="/projects" class="hidden sm:inline-flex btn-ghost">All projects</a>
+    </div>
+    <div class="grid grid-cols-1 gap-4">
+      {featured.map((project, index) => (
+        <ProjectCard
+          slug={project.slug}
+          name={project.name}
+          tagline={project.tagline}
+          domains={project.domains}
+          problem={project.problem}
+          solution={project.solution}
+          github={project.github}
+          index={index}
+        />
+      ))}
+    </div>
+  </div>
+</section>

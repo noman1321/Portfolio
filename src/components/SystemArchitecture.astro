@@ -1,0 +1,30 @@
+---
+import ArchitectureDiagram from "./ArchitectureDiagram.astro";
+
+const layers = [
+  [{ id: "user", label: "User" }],
+  [{ id: "backend", label: "Backend" }],
+  [{ id: "orch", label: "AI Orchestrator" }],
+  [
+    { id: "retriever", label: "Retriever" },
+    { id: "llm", label: "LLM" },
+    { id: "tools", label: "Tools" },
+  ],
+  [
+    { id: "vdb", label: "Vector DB" },
+    { id: "openai", label: "Model API" },
+    { id: "apis", label: "APIs / DB" },
+  ],
+];
+---
+
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <p class="section-kicker">Systems, not badges</p>
+    <h2 class="font-display text-3xl sm:text-4xl mt-3 mb-3">How production AI is wired</h2>
+    <p class="text-white/60 max-w-2xl mb-8">
+      The model is a component. The system is retrieval, tools, orchestration, and the path into a real environment.
+    </p>
+    <ArchitectureDiagram title="Reference architecture" layers={layers} />
+  </div>
+</section>

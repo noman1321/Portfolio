@@ -1,0 +1,86 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { siteConfig } from "../config";
+import RecruiterCTA from "../components/RecruiterCTA.astro";
+---
+
+<Layout title="About" description="AI Engineer turning ambiguous business problems into production-ready AI systems.">
+  <section class="pt-28 pb-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="section-kicker">Who I am</p>
+      <h1 class="font-display text-4xl sm:text-5xl mt-3 max-w-3xl">{siteConfig.aboutMe}</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+        <div class="glass rounded-2xl p-6">
+          <p class="section-kicker mb-4">What I build</p>
+          <ul class="space-y-2">
+            {siteConfig.whatIBuild.map((item) => (
+              <li class="text-white/80 flex gap-2">
+                <span class="text-cyan-300">→</span>{item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <p class="section-kicker mb-4">How I work</p>
+          <div class="grid grid-cols-1 gap-2">
+            {siteConfig.howIWork.map((item) => (
+              <div class="rounded-lg border border-white/10 px-3 py-2 text-white/80">{item}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <p class="section-kicker mb-4">Stack</p>
+        <div class="flex flex-wrap gap-2">
+          {siteConfig.skills.map((skill) => (
+            <span class="font-mono text-xs px-3 py-1.5 rounded-md border border-white/10 text-white/70">{skill}</span>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-16">
+        <p class="section-kicker">Experience</p>
+        <h2 class="font-display text-3xl mt-3 mb-8">Timeline</h2>
+        <div class="space-y-4">
+          {siteConfig.experience.map((exp) => (
+            <article class="glass rounded-2xl p-5 sm:p-6">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                <div>
+                  <h3 class="text-white text-lg">{exp.title}</h3>
+                  <p class="text-cyan-300 text-sm">{exp.company}</p>
+                </div>
+                <p class="font-mono text-xs text-white/40">{exp.dateRange}{exp.location ? ` · ${exp.location}` : ""}</p>
+              </div>
+              <ul class="mt-4 space-y-2">
+                {exp.bullets.map((bullet) => (
+                  <li class="text-sm text-white/65 leading-relaxed">→ {bullet}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-16">
+        <p class="section-kicker">Education</p>
+        <div class="mt-4 space-y-4">
+          {siteConfig.education.map((edu) => (
+            <article class="glass rounded-2xl p-5 sm:p-6">
+              <h3 class="text-white text-lg">{edu.degree}</h3>
+              <p class="text-cyan-300 text-sm">{edu.school}</p>
+              <p class="font-mono text-xs text-white/40 mt-1">{edu.dateRange}{edu.location ? ` · ${edu.location}` : ""}</p>
+              <ul class="mt-4 space-y-2">
+                {edu.achievements.map((item) => (
+                  <li class="text-sm text-white/65">→ {item}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+  <RecruiterCTA />
+</Layout>

@@ -1,0 +1,29 @@
+---
+interface Node {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  layers: Node[][];
+  title?: string;
+}
+
+const { layers, title } = Astro.props;
+---
+
+<div class="rounded-2xl border border-white/10 bg-[#080a0e]/80 p-5 sm:p-6">
+  {title && <p class="section-kicker mb-5">{title}</p>}
+  <div class="flex flex-col items-center">
+    {layers.map((layer, index) => (
+      <>
+        <div class="flex flex-wrap items-center justify-center gap-3 w-full">
+          {layer.map((node) => (
+            <div class="arch-node">{node.label}</div>
+          ))}
+        </div>
+        {index < layers.length - 1 && <div class="arch-arrow" aria-hidden="true">↓</div>}
+      </>
+    ))}
+  </div>
+</div>

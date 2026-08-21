@@ -1,0 +1,116 @@
+---
+import { siteConfig } from "../config";
+---
+
+<div id="ai-assistant" class="fixed bottom-4 right-4 z-[60]">
+  <button
+    id="ai-fab"
+    type="button"
+    class="group flex items-center gap-2 rounded-full border border-cyan-400/30 bg-[var(--bg-elevated)]/90 px-4 py-2.5 text-sm text-white shadow-lg backdrop-blur hover:border-cyan-300/70"
+    data-open-assistant
+  >
+    <span class="status-dot"></span>
+    <span class="font-mono text-xs tracking-wide">Ask my AI →</span>
+  </button>
+
+  <div
+    id="ai-panel"
+    class="chat-panel hidden absolute bottom-14 right-0 w-[min(92vw,420px)] overflow-hidden rounded-2xl border border-white/10"
+    role="dialog"
+    aria-label="Ask Noman's AI"
+  >
+    <div class="flex items-center justify-between border-b border-white/10 px-4 py-3">
+      <div>
+        <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-cyan-300">Ask Noman's AI</p>
+        <p class="text-sm text-white/80">{siteConfig.assistant.greeting}</p>
+      </div>
+      <button id="ai-close" type="button" class="text-white/50 hover:text-white" aria-label="Close assistant">✕</button>
+    </div>
+
+    <div id="ai-messages" class="h-[320px] space-y-3 overflow-y-auto px-4 py-3 text-sm">
+      <div class="rounded-xl border border-white/10 bg-white/5 p-3 text-white/80">
+        Answers come from Noman's portfolio, projects, and experience — a small retrieval system over this site.
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-1.5 border-t border-white/10 px-3 py-2">
+      {siteConfig.assistant.suggested.map((q) => (
+        <button
+          type="button"
+          class="ai-suggest rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] text-white/70 hover:border-cyan-400/40 hover:text-cyan-200"
+          data-query={q}
+        >
+          {q}
+        </button>
+      ))}
+    </div>
+
+    <form id="ai-form" class="flex gap-2 border-t border-white/10 p-3">
+      <input
+        id="ai-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Ask about systems, FDE, stack…"
+        class="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none placeholder:text-white/30 focus:border-cyan-400/50"
+      />
+      <button type="submit" class="btn-primary !px-3">Send</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  import { answerQuestion } from "../lib/assistant";
+
+  const panel = document.getElementById("ai-panel");
+  const messages = document.getElementById("ai-messages");
+  const form = document.getElementById("ai-form") as HTMLFormElement | null;
+  const input = document.getElementById("ai-input") as HTMLInputElement | null;
+  const closeBtn = document.getElementById("ai-close");
+
+  function openPanel() {
+    panel?.classList.remove("hidden");
+    input?.focus();
+  }
+
+  function closePanel() {
+    panel?.classList.add("hidden");
+  }
+
+  function addMessage(role: "user" | "assistant", text: string) {
+    if (!messages) return;
+    const el = document.createElement("div");
+    el.className =
+      role === "user"
+        ? "ml-8 rounded-xl bg-cyan-400/10 border border-cyan-400/20 p-3 text-cyan-50 whitespace-pre-wrap"
+        : "mr-4 rounded-xl border border-white/10 bg-white/5 p-3 text-white/80 whitespace-pre-wrap";
+    el.textContent = text;
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function ask(query: string) {
+    const q = query.trim();
+    if (!q) return;
+    addMessage("user", q);
+    addMessage("assistant", answerQuestion(q));
+    if (input) input.value = "";
+  }
+
+  document.querySelectorAll("[data-open-assistant]").forEach((btn) => {
+    btn.addEventListener("click", openPanel);
+  });
+  closeBtn?.addEventListener("click", closePanel);
+
+  document.querySelectorAll("[data-query]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const q = (btn as HTMLElement).dataset.query || "";
+      openPanel();
+      ask(q);
+    });
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    ask(input?.value || "");
+  });
+</script>

@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { siteConfig } from "../config";
+---
+
+<Layout title="Contact" description="Get in touch with Ansari Noman about AI Engineer and Forward Deployed AI roles.">
+  <section class="pt-28 pb-24">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="section-kicker">Contact</p>
+      <h1 class="font-display text-4xl sm:text-5xl mt-3 max-w-2xl">Have an AI problem worth solving?</h1>
+      <p class="mt-4 text-white/60 max-w-xl">Let's talk. Currently open to {siteConfig.openToRoles.join(" · ")}.</p>
+
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <a href={`mailto:${siteConfig.social.email}`} class="glass glass-hover rounded-2xl p-6">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Email</p>
+          <p class="mt-3 text-white break-all">{siteConfig.social.email}</p>
+        </a>
+        {siteConfig.social.linkedin && (
+          <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="glass glass-hover rounded-2xl p-6">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">LinkedIn</p>
+            <p class="mt-3 text-white">linkedin.com/in/noman1321</p>
+          </a>
+        )}
+        {siteConfig.social.phone && (
+          <a href={`tel:${siteConfig.social.phone.replace(/\s/g, "")}`} class="glass glass-hover rounded-2xl p-6">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Phone</p>
+            <p class="mt-3 text-white">{siteConfig.social.phone}</p>
+          </a>
+        )}
+        {siteConfig.social.github && (
+          <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" class="glass glass-hover rounded-2xl p-6">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">GitHub</p>
+            <p class="mt-3 text-white">github.com/noman1321</p>
+          </a>
+        )}
+      </div>
+
+      <div class="mt-10 glass rounded-2xl p-6">
+        <p class="font-mono text-[10px] uppercase tracking-widest text-white/40">Currently open to</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {siteConfig.openToRoles.map((role) => (
+            <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-100">{role}</span>
+          ))}
+        </div>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="/resume" class="btn-primary">View resume</a>
+          <a href={siteConfig.resumeFile} class="btn-ghost" download>Download resume</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

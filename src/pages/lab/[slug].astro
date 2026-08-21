@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { siteConfig } from "../../config";
+
+export function getStaticPaths() {
+  return siteConfig.lab.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<Layout title={item.title} description={item.summary}>
+  <article class="pt-28 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      <a href="/lab" class="font-mono text-xs text-white/40 hover:text-cyan-300">← AI Lab</a>
+      <p class="section-kicker mt-6">{item.status}</p>
+      <h1 class="font-display text-4xl sm:text-5xl mt-3">{item.title}</h1>
+      <p class="mt-4 text-lg text-white/70">{item.summary}</p>
+      <div class="mt-6 flex flex-wrap gap-1.5">
+        {item.focus.map((tag) => (
+          <span class="font-mono text-[10px] uppercase tracking-wide px-2 py-1 rounded-md border border-white/10 text-white/60">{tag}</span>
+        ))}
+      </div>
+      <section class="mt-12">
+        <h2 class="font-display text-2xl">Notes</h2>
+        <ul class="mt-4 space-y-3">
+          {item.notes.map((note) => <li class="text-white/70 leading-relaxed">→ {note}</li>)}
+        </ul>
+      </section>
+      <section class="mt-10">
+        <h2 class="font-display text-2xl">Takeaways</h2>
+        <ul class="mt-4 space-y-3">
+          {item.takeaways.map((note) => <li class="text-white/70 leading-relaxed">→ {note}</li>)}
+        </ul>
+      </section>
+    </div>
+  </article>
+</Layout>

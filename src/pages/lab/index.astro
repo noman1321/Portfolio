@@ -1,0 +1,27 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { siteConfig } from "../../config";
+---
+
+<Layout title="AI Lab" description="Noman's AI Lab — RAG, agents, evaluation, and production notes.">
+  <section class="pt-28 pb-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <p class="section-kicker">Noman's AI Lab</p>
+      <h1 class="font-display text-4xl sm:text-5xl mt-3">Personal AI R&D space</h1>
+      <p class="mt-4 text-white/60 max-w-2xl">
+        Working notes on retrieval, tool calling, evaluation, and what actually survives contact with users.
+      </p>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {siteConfig.lab.map((item) => (
+          <a href={`/lab/${item.slug}`} class="glass glass-hover rounded-2xl p-6 min-h-[200px] flex flex-col">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-emerald-400">{item.status}</p>
+            <h2 class="font-display text-2xl text-white mt-3">{item.title}</h2>
+            <p class="mt-2 text-white/55 flex-1">{item.subtitle}</p>
+            <p class="mt-4 text-sm text-white/70">{item.summary}</p>
+            <p class="mt-5 font-mono text-xs text-cyan-300">Explore →</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
