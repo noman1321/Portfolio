@@ -29,7 +29,7 @@ export type Project = {
   howItWorks: string[];
   architecture: ArchitectureDiagram;
   technicalDecisions: { title: string; detail: string }[];
-  aiWorkflow: string[];
+  aiWorkflow?: string[];
   challenges: { challenge: string; decision: string; result: string }[];
   learned: string[];
   impact: string[];

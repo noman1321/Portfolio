@@ -7,10 +7,11 @@ interface Props {
   problem: string;
   solution: string;
   github?: string;
+  demo?: string;
   index?: number;
 }
 
-const { slug, name, tagline, domains, problem, solution, github, index } = Astro.props;
+const { slug, name, tagline, domains, problem, solution, github, demo, index } = Astro.props;
 ---
 
 <article class="glass glass-hover rounded-2xl p-5 sm:p-6 flex flex-col gap-4">
@@ -46,6 +47,9 @@ const { slug, name, tagline, domains, problem, solution, github, index } = Astro
 
   <div class="flex flex-wrap gap-2 pt-1">
     <a href={`/projects/${slug}`} class="btn-primary !py-2">Case Study</a>
+    {demo && (
+      <a href={demo} class="btn-ghost !py-2" target="_blank" rel="noopener noreferrer">Play Store</a>
+    )}
     {github && (
       <a href={github} class="btn-ghost !py-2" target="_blank" rel="noopener noreferrer">GitHub</a>
     )}

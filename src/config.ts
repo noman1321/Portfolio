@@ -366,6 +366,89 @@ export const siteConfig = {
       domains: ["AI", "Finance", "Data Analytics"],
       featured: true,
     },
+    {
+      slug: "al-falaah",
+      name: "Al-Falaah",
+      tagline:
+        "A live Azaan and masjid utility app for Jama Masjid Ahle Hadees, Mominpura — published on Google Play.",
+      description:
+        "Al-Falaah is a religious utility application for the local community of Jama Masjid Ahle Hadees, Mominpura, Mumbai. Developed and published by Moosa Ansari / MBAHJ, it streams live Azaan, shows daily prayer timings, and keeps worshippers updated with masjid announcements — no login required.",
+      problem:
+        "People who cannot be at the masjid still need the live Azaan, prayer times, and local announcements from Jama Masjid Ahle Hadees, Mominpura. Generic azan apps do not carry this mosque's broadcast or its community calendar.",
+      solution:
+        "A Google Play app that streams live Azaan from the masjid and packages prayer timings, Qibla, Islamic calendar events, and announcements in one simple interface.",
+      overview:
+        "Al-Falaah is a production Android app built for a real congregation. It is developed and published by Moosa Ansari / MBAHJ. The first version is live on the Play Store and is designed so the local community can hear Azaan and stay current with masjid updates without creating an account.",
+      whatIBuilt: [
+        "Live Azaan audio streaming from Jama Masjid Ahle Hadees, Mominpura",
+        "Daily prayer timings with a dashboard for Azaan, Jama'at, and Qaza",
+        "Hijri calendar with Islamic events and a Ramadan Sehri/Iftar schedule",
+        "Qibla finder and masjid announcements",
+        "Light and dark themes, with no login or registration required",
+        "Play Store release for Android so the community can install it directly",
+      ],
+      howItWorks: [
+        "A Raspberry Pi at the masjid captures live audio from the sound system.",
+        "Audio is streamed over Icecast so listeners can hear Azaan in real time.",
+        "The Flutter app plays that stream and shows prayer times, Qibla, and calendar data.",
+        "Firebase Cloud Messaging and Firestore trigger broadcast state and notifications.",
+        "Worshippers install the app from Google Play and use it without an account.",
+      ],
+      architecture: {
+        title: "Al-Falaah",
+        layers: [
+          [{ id: "masjid", label: "Masjid Audio" }],
+          [{ id: "pi", label: "Raspberry Pi" }],
+          [{ id: "stream", label: "Icecast Stream" }],
+          [
+            { id: "firebase", label: "Firebase" },
+            { id: "app", label: "Flutter App" },
+          ],
+          [{ id: "user", label: "Worshipper" }],
+        ],
+      },
+      technicalDecisions: [
+        {
+          title: "Live stream, not a recorded azan file",
+          detail:
+            "The product is the masjid's own Azaan. Capture at the source and stream it, instead of shipping a generic recording that would not represent this congregation.",
+        },
+        {
+          title: "No login for a community utility",
+          detail:
+            "The Play Store listing is explicit: no registration. Prayer times, Qibla, and announcements should be available without creating an account.",
+        },
+        {
+          title: "Flutter + Firebase for a shippable first version",
+          detail:
+            "Flutter delivered the Android client. Firebase Cloud Messaging and Firestore handle live broadcast state and notifications so the app can ship as a real product, not a local prototype.",
+        },
+      ],
+      challenges: [
+        {
+          challenge:
+            "A masjid utility only works if the Azaan people hear is this masjid's Azaan, on time, on a phone they already have.",
+          decision:
+            "Pair on-site Raspberry Pi capture with an Icecast stream and a Play Store Flutter app, instead of stopping at a demo on one laptop.",
+          result:
+            "Al-Falaah is live on Google Play as Al-Falaah; Mominpura Azaan App, with live streaming, prayer times, Qibla, calendar, and announcements.",
+        },
+      ],
+      learned: [
+        "Community software has to ship where people already install apps — in this case Google Play.",
+        "IoT at the masjid and a mobile client are one system: the stream is useless if the phone UI is not simple.",
+        "Privacy-sensitive religious tools should collect as little as possible. This app does not require login.",
+      ],
+      impact: [
+        "Live on Google Play for the Mominpura community",
+        "Connects worshippers to Jama Masjid Ahle Hadees Azaan and announcements remotely",
+        "Shows a full production path: hardware capture, streaming, mobile client, and store release",
+      ],
+      demo: "https://play.google.com/store/apps/details?id=com.ahlehadees.azaan_app",
+      skills: ["Flutter", "Firebase", "Python", "Raspberry Pi", "Icecast", "Android"],
+      domains: ["Mobile", "IoT", "Community"],
+      featured: true,
+    },
   ] satisfies Project[],
   caseStudies: [
     {

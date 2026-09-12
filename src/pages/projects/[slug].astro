@@ -22,6 +22,7 @@ const flow = ["Problem", "Solution", "Architecture", "Technology", "Impact"];
       <h1 class="font-display text-4xl sm:text-5xl mt-3">{project.name}</h1>
       <p class="mt-4 text-lg text-white/70">{project.tagline}</p>
       <div class="mt-6 flex flex-wrap gap-2">
+        {project.demo && <a href={project.demo} class="btn-primary !py-2" target="_blank" rel="noopener noreferrer">Play Store</a>}
         {project.github && <a href={project.github} class="btn-ghost !py-2" target="_blank" rel="noopener noreferrer">GitHub</a>}
         <a href="/case-studies" class="btn-ghost !py-2">Related thinking</a>
       </div>
@@ -75,14 +76,16 @@ const flow = ["Problem", "Solution", "Architecture", "Technology", "Impact"];
           ))}
         </div>
       </div>
-      <div>
-        <h2 class="font-display text-2xl">AI / LLM Workflow</h2>
-        <ol class="mt-3 space-y-2">
-          {project.aiWorkflow.map((item, i) => (
-            <li class="text-white/70 font-mono text-sm">{String(i + 1).padStart(2, "0")} — {item}</li>
-          ))}
-        </ol>
-      </div>
+      {project.aiWorkflow && project.aiWorkflow.length > 0 && (
+        <div>
+          <h2 class="font-display text-2xl">AI / LLM Workflow</h2>
+          <ol class="mt-3 space-y-2">
+            {project.aiWorkflow.map((item, i) => (
+              <li class="text-white/70 font-mono text-sm">{String(i + 1).padStart(2, "0")} — {item}</li>
+            ))}
+          </ol>
+        </div>
+      )}
       <div>
         <h2 class="font-display text-2xl">Challenges</h2>
         {project.challenges.map((item) => (
@@ -122,6 +125,14 @@ const flow = ["Problem", "Solution", "Architecture", "Technology", "Impact"];
           ))}
         </div>
       </div>
+      {project.demo && (
+        <div>
+          <h2 class="font-display text-2xl">Live</h2>
+          <a href={project.demo} class="mt-3 inline-flex text-cyan-300 hover:underline" target="_blank" rel="noopener noreferrer">
+            {project.demo}
+          </a>
+        </div>
+      )}
       {project.github && (
         <div>
           <h2 class="font-display text-2xl">GitHub</h2>

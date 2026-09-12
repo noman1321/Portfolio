@@ -43,6 +43,17 @@ const PROJECT_ALIASES: Record<string, string[]> = {
     "fintech",
     "streamlit",
   ],
+  "al-falaah": [
+    "al falaah",
+    "alfalaah",
+    "al-falaah",
+    "azan",
+    "azaan",
+    "mominpura",
+    "masjid",
+    "play store",
+    "flutter",
+  ],
 };
 
 function normalize(value: string): string {
@@ -141,6 +152,7 @@ function formatProject(project: Project): string {
       ? `\nChallenge: ${challenge.challenge}\nDecision: ${challenge.decision}\nResult: ${challenge.result}`
       : "",
     project.github ? `GitHub: ${project.github}` : "",
+    project.demo ? `Play Store: ${project.demo}` : "",
     `Read more: /projects/${project.slug}`,
   ]
     .filter((line) => line !== "")
